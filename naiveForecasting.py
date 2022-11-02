@@ -1,5 +1,9 @@
 import numpy as np
 from matplotlib import pyplot as plt
+from keras import metrics
+
+# Naive forecasting is the act of predicting the future by taking old values and copying it to predict the future
+# Useful to be used to get a baseline.
 
 def plot_series(time, series, format="-", start=0, end=None, label=None):
     plt.plot(time[start:end], series[start:end], format, label=label)
@@ -47,3 +51,34 @@ x_train = series[:split_time]
 
 time_val = time[split_time:]
 x_val = series[split_time:]
+
+naive_forecasting = series[split_time - 1:-1]
+
+plt.figure(figsize=(10, 6))
+plot_series(time_val, x_val, start=0, end=150, label="Series")
+plot_series(time_val, naive_forecasting, start=1, end=151, label="Forecast")
+
+plt.show()
+
+#Getting a baseline by calculating its Mean Absolute Error
+errors = naive_forecasting - x_val
+abs_errors = np.abs(errors)
+mean_absolute_error = abs_errors.mean()
+print(f"MAE: {mean_absolute_error}")
+print(f"MAE With Keras: {metrics.mean_absolute_error(x_val, naive_forecasting).numpy()}")
+
+# Loss function Defintion:
+# errors = prediction - actual
+
+# Mean Squared Error: 
+    # mse = mean(errors^2)
+    # Useful for problems where big error needs to be penalized heavily
+
+# Mean Absolute Error:
+    # mae = mean(abs(errors))
+    # Useful for problems where big error is not so much of a problem and the model will be more lenient
+
+# Mean Absolute Percentage Error:
+    # mape = mean(abs(error / actual))
+    # This show the mean ratio between the absolute error and the absolute value
+    # This also gives an idea of the size of the error compared to the values

@@ -92,7 +92,7 @@ history = sign_model.trainWithValidation(train_dataset, validation_dataset,5)
 # history = sign_model.train(train_dataset, 10)
 sign_model.plot_result(history)
 # sign_model.evaluate(test_dataset)
-sign_model.save('./savedModels/sign_asl_personal01')
+sign_model.save('./savedModels/sign_asl_personal02')
 #==============================================================
 
 for images, labels in train_dataset.take(1):
