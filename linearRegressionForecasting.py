@@ -60,10 +60,10 @@ def window_dataset(series, window_size, batch_size=32):
 
 # DOESNT WORK, TRY AND FIND THE SOLUTION BEFORE SUBMITTING TO THE COLAB
 def difference_series(series):
-    return series[30:] - series[:-30]
+    return series[365:] - series[:-365]
 
-x_train = difference_series(series)[:split_time]
-x_val = difference_series(series)[split_time:]
+# x_train = difference_series(series)[:split_time]
+# x_val = difference_series(series)[split_time:]
 window_size = 30
 train_set = window_dataset(x_train, window_size)
 valid_set = window_dataset(x_val, window_size)
@@ -78,7 +78,7 @@ model = Sequential([
 optimizer = optimizers.SGD(learning_rate=1e-5, momentum=0.9)
 model.compile(optimizer, loss=losses.Huber(), metrics=['mae'])
 early_stopping = callbacks.EarlyStopping(patience=10)
-model.fit(train_set, epochs=1,
+model.fit(train_set, epochs=500,
             validation_data=valid_set,
             callbacks=[early_stopping])
 
